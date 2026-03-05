@@ -17,7 +17,7 @@ const snapshot = async (paths) => {
       if (file.isDirectory()) {
         await snapshot(fullPath);
         readableFileContent.etnries.push({
-          path: fullPath,
+          path: dir.split(process.cwd() + '/')[1],
           type: 'directory',
         });
       } else {
@@ -25,13 +25,13 @@ const snapshot = async (paths) => {
         const content = (await fs.readFile(fullPath)).toString('base64');
         const size = (await fs.stat(fullPath)).size;
         readableFileContent.etnries.push({
-          path: fullPath,
+          path: dir.split(process.cwd() + '/')[1] + file.name,
           type: 'file',
           size: size,
           content: content
         });
       }
-      
+
       fs.writeFile('./snapshot.json', JSON.stringify(readableFileContent, null, 2), 'utf8', (err) => {
         if (err) {
           console.error('Error: ', err);
@@ -55,7 +55,7 @@ await snapshot();
 
 
 async function isWorksapceExisted(path) {
-  const errorMsg = 'Worspace does not exist!';
+  const errorMsg = 'FS operation failed';
   try {
     await fs.access(path, constants.R_OK);
   } catch (error) {
