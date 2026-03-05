@@ -39,7 +39,6 @@ await restore();
 
 
 async function isJSONEXist(path) {
-  console.log(path)
   const errorMsg = 'FS operation failed';
   try {
     await fs.access(path, constants.R_OK);
