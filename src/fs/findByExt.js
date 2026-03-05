@@ -22,11 +22,11 @@ const findByExt = async (paths, fileArr) => {
   try {
     const files = fs.readdirSync(dir, { withFileTypes: true });
 
-    if (!files && !files.length) {
-      throw new Error('Not found!')
+    if (!files || !files.length) {
+      throw new Error('File not found!')
     }
 
-    for (const file of files) {
+    for await (const file of files) {
       const fullPath = file.parentPath + '/' + file.name;
 
       const stat = fs.statSync(fullPath);
